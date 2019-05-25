@@ -1,0 +1,8 @@
+package: myhouse-service-system
+revision: 1
+version: development
+git: myhouse-project/myhouse-service-system
+modules:
+  - service/system
+
+      
