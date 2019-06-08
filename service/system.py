@@ -13,9 +13,9 @@
 #   optional: 
 # OUTBOUND: 
 
-from sdk.module.service import Service
+from sdk.python.module.service import Service
 
-import sdk.utils.command
+import sdk.python.utils.command
 
 class System(Service):
     # What to do when initializing
@@ -113,7 +113,7 @@ class System(Service):
                 data = self.cache.get(cache_key)
             else:
                 # run the poll command
-                data = sdk.utils.command.run(command_poll)
+                data = sdk.python.utils.command.run(command_poll)
                 self.cache.add(cache_key, data)
             data = str(data).replace("'","''")
             command_parse = self.commands[measure]["command_parse"]
@@ -121,7 +121,7 @@ class System(Service):
             if command_parse != "": 
                 # run command parse
                 command = "echo '"+data+"' |"+command_parse
-                data = sdk.utils.command.run(command)
+                data = sdk.python.utils.command.run(command)
             # send the response back
             message.reply()
             message.set("value", data)
