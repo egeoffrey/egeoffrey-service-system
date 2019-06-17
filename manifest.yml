@@ -1,5 +1,5 @@
 package: myhouse-service-system
-revision: 1
+revision: 2
 version: development
 git: myhouse-project/myhouse-service-system
 modules:

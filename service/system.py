@@ -22,70 +22,21 @@ class System(Service):
     def on_init(self):
         # define common commands
         self.commands = {
-            'cpu_user': {
-                'command_poll': 'top -bn1',
-                'command_parse': 'grep "Cpu(s)"|awk \'{print $2}\'',
-            },
-            'cpu_system': {
-                'command_poll': 'top -bn1',
-                'command_parse': 'grep "Cpu(s)"|awk \'{print $4}\'',
-            },
-            'ram_used': {
-                'command_poll': 'free -m',
-                'command_parse': 'grep Mem:|awk \'{print $3}\'',
-            },
-            'swap_used': {
-                'command_poll': 'free -m',
-                'command_parse': 'grep Swap:|awk \'{print $3}\'',
-            },
-            'load_1': {
-                'command_poll': 'uptime',
-                'command_parse': 'awk \'{gsub(",","",$(NF-2)); print $(NF-2)}\'',
-            },
-            'load_5': {
-                'command_poll': 'uptime',
-                'command_parse': 'awk \'{gsub(",","",$(NF-1)); print $(NF-1)}\'',
-            },
-            'load_15': {
-                'command_poll': 'uptime',
-                'command_parse': 'awk \'{gsub(",","",$(NF-0)); print $(NF-0)}\'',
-            },
-            'network_modules': {
-                'command_poll': 'netstat -tunap 2>/dev/null',
-                'command_parse': 'grep tcp|grep LISTEN|wc -l',
-            },
-            'network_connections': {
-                'command_poll': 'netstat -tunap 2>/dev/null',
-                'command_parse': 'grep tcp|grep -v LISTEN|wc -l',
-            },
-            'temperature': {
-                'command_poll': 'cat /sys/class/thermal/thermal_zone0/temp',
-                'command_parse': 'awk \'{printf "%.1f",$0/1000}\'',
-            },
-            'application_database': {
-                'command_poll': 'ls -al /var/lib/redis/',
-                'command_parse': 'grep dump.rdb|awk \'{print $5}\' |grep -o \'[0-9.]\\+\' | awk \'{printf "%.1f",$0/1024/1024}\''
-            },
-            'uptime': {
-                'command_poll': 'cat /proc/uptime',
-                'command_parse': 'cut -f 1 -d "."'
-            },
-            'logwatch': {
-                'command_poll': 'logwatch --range yesterday --output stdout --format text',
-                'command_parse': 'cat'
-            },
-            'reboot': {
-                'command_poll': 'reboot',
-                'command_parse': ''
-            },
-            'shutdown': {
-                'command_poll': 'shutdown -h now',
-                'command_parse': ''
-            },
-            'system_logs': {
-                'command_poll': 'tail -100 /var/log/messages',
-                'command_parse': 'perl -ne \'/^(\\S+ \\S+ \\S+) \\S+ (\\S+): (.+)$/;print \"$1|_|$2|_|$3\\n\"\''
-            }
+            'cpu_user': 'top -bn1 | grep "Cpu(s)"|awk \'{print $2}\'',
+            'cpu_system': 'top -bn1 | grep "Cpu(s)"|awk \'{print $4}\'',
+            'ram_used': 'free -m | grep Mem:|awk \'{print $3}\'',
+            'swap_used': 'free -m | grep Swap:|awk \'{print $3}\'',
+            'load_1': 'uptime | awk \'{gsub(",","",$(NF-2)); print $(NF-2)}\'',
+            'load_5': 'uptime | awk \'{gsub(",","",$(NF-1)); print $(NF-1)}\'',
+            'load_15': 'uptime | awk \'{gsub(",","",$(NF-0)); print $(NF-0)}\'',
+            'network_services': 'netstat -tunap 2>/dev/null | grep tcp|grep LISTEN|wc -l',
+            'network_connections': 'netstat -tunap 2>/dev/null |grep tcp|grep -v LISTEN|wc -l',
+            'temperature': 'cat /sys/class/thermal/thermal_zone0/temp | awk \'{printf "%.1f",$0/1000}\'',
+            'uptime': 'cat /proc/uptime | cut -f 1 -d "."',
+            'logwatch': 'logwatch --range yesterday --output stdout --format text | cat',
+            'reboot': 'reboot',
+            'shutdown': 'shutdown -h now',
+            'system_logs': 'tail -100 /var/log/messages | perl -ne \'/^(\\S+ \\S+ \\S+) \\S+ (\\S+): (.+)$/;print \"$1|_|$2|_|$3\\n\"\'',
         }
     
     # What to do when running
@@ -106,22 +57,8 @@ class System(Service):
             if measure not in self.commands:
                 self.log_error("invalid measure "+measure)
                 return                
-            # if the raw data is cached, take it from there, otherwise request the data and cache it
-            command_poll = self.commands[measure]["command_poll"]
-            cache_key = "/".join([type, str(command_poll)])
-            if self.cache.find(cache_key): 
-                data = self.cache.get(cache_key)
-            else:
-                # run the poll command
-                data = sdk.python.utils.command.run(command_poll)
-                self.cache.add(cache_key, data)
-            data = str(data).replace("'","''")
-            command_parse = self.commands[measure]["command_parse"]
-            # no command to run, return the raw data
-            if command_parse != "": 
-                # run command parse
-                command = "echo '"+data+"' |"+command_parse
-                data = sdk.python.utils.command.run(command)
+            # run the command
+            data = sdk.python.utils.command.run(self.commands[measure])
             # send the response back
             message.reply()
             message.set("value", data)
