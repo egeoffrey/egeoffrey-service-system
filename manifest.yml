@@ -2,7 +2,7 @@ package: myhouse-service-system
 revision: 3
 version: development
 github: myhouse-project/myhouse-service-system
-dockerhub: myhouse-project/myhouse-service-system
+dockerhub: myhouseproject/myhouse-service-system
 container_config:
   privileged: true
 description: Collect telemetry information from the system
