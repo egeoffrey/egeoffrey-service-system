@@ -1,7 +1,12 @@
 package: myhouse-service-system
-revision: 2
+revision: 3
 version: development
-git: myhouse-project/myhouse-service-system
+github: myhouse-project/myhouse-service-system
+dockerhub: myhouse-project/myhouse-service-system
+container_config:
+  privileged: true
+description: Collect telemetry information from the system
+tags: service cpu memory
 modules:
   - service/system
 
