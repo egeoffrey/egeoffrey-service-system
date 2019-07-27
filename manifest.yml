@@ -1,5 +1,6 @@
+manifest_schema: 1
 package: myhouse-service-system
-revision: 3
+revision: 4
 version: development
 github: myhouse-project/myhouse-service-system
 dockerhub: myhouseproject/myhouse-service-system
@@ -8,6 +9,11 @@ container_config:
 description: Collect telemetry information from the system
 tags: service cpu memory
 modules:
-  - service/system
-
-      
+  - service/system:
+      description: Collect telemetry information from the system
+      service_configuration: 
+        active:
+          - name: measure
+            description: The statistic to retrieve
+            format: cpu_user|cpu_system|ram_used|swap_used|load_1|load_5|load_15|network_services|network_connections|temperature|uptime|logwatch|reboot|shutdown|system_logs
+            required: true
