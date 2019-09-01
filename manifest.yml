@@ -10,12 +10,12 @@ modules:
 - service/system:
     description: Collect telemetry information from the system
     service_configuration:
-      active:
+      pull:
       - description: The statistic to retrieve
         format: cpu_user|cpu_system|ram_used|swap_used|load_1|load_5|load_15|network_services|network_connections|temperature|uptime|logwatch|reboot|shutdown|system_logs
         name: measure
         required: true
 package: egeoffrey-service-system
-revision: 8
+revision: 9
 tags: service cpu memory
 version: 1.0
