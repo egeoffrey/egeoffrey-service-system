@@ -16,6 +16,6 @@ modules:
         name: measure
         required: true
 package: egeoffrey-service-system
-revision: 9
+revision: 10
 tags: service cpu memory
 version: 1.0
