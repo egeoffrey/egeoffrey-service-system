@@ -1,4 +1,4 @@
-branch: development
+branch: master
 container_config:
   privileged: true
 description: Collect telemetry information from the system
@@ -16,6 +16,6 @@ modules:
         name: measure
         required: true
 package: egeoffrey-service-system
-revision: 10
+revision: 11
 tags: service cpu memory
 version: 1.0

@@ -63,4 +63,4 @@ service cpu memory
 
 ## Version
 
-The version of this egeoffrey-service-system is 1.0-10 on the development branch.
+The version of this egeoffrey-service-system is 1.0-11 on the master branch.
