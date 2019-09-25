@@ -1,0 +1,41 @@
+- CPU:
+  - icon: microchip
+    sensors:
+    - examples/system/cpu_user
+    - examples/system/cpu_system
+    size: 3
+    title: 'CPU: Summary'
+    widget: summary
+  - group_by: hour
+    sensors:
+    - examples/system/cpu_user
+    - examples/system/cpu_system
+    size: 3
+    title: 'CPU: Hourly'
+    widget: timeline
+  - group_by: day
+    sensors:
+    - examples/system/cpu_user
+    - examples/system/cpu_system
+    size: 6
+    title: 'CPU: Daily'
+    widget: timeline
+- Memory:
+  - icon: memory
+    sensors:
+    - examples/system/ram
+    size: 3
+    title: 'Memory: Summary'
+    widget: summary
+  - group_by: hour
+    sensors:
+    - examples/system//ram
+    size: 3
+    title: 'Memory: Hourly'
+    widget: timeline
+  - group_by: day
+    sensors:
+    - examples/system//ram
+    size: 6
+    title: 'Memory: Daily'
+    widget: timeline

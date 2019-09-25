@@ -1,0 +1,12 @@
+conditions:
+- - cpu_max > threshold
+constants:
+  threshold: 10
+schedule:
+  hours: 1
+  trigger: interval
+severity: warning
+text: "CPU usage has been high during the last hour with spikes at %cpu_max% (user)"
+type: recurrent
+variables:
+  cpu_max: examples/system/cpu_user/hour/max

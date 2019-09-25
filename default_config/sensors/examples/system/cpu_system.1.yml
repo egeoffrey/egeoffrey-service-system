@@ -1,0 +1,13 @@
+calculate: avg_min_max
+description: CPU System
+format: float_1
+retain: history
+service:
+  configuration:
+    measure: cpu_system
+  mode: pull
+  name: system
+  schedule:
+    minutes: 10
+    trigger: interval
+unit: '%'

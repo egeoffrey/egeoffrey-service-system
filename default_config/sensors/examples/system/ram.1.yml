@@ -1,0 +1,13 @@
+calculate: avg_min_max
+description: RAM
+format: int
+retain: history
+service:
+  configuration:
+    measure: ram_used
+  mode: pull
+  name: system
+  schedule:
+    minutes: 10
+    trigger: interval
+unit: MB
