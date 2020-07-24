@@ -40,7 +40,7 @@ If you are a user willing to contribute to somebody's else package, submit your 
 
 Building is required only if you are the author of the package. To build a Docker image and automatically push it to [Docker Hub](https://hub.docker.com/r/egeoffrey/egeoffrey-service-system), run the following command from within this package's directory:
 ```
-egeoffrey-cli build egeoffrey-service-system <amd64|arm>
+egeoffrey-cli build egeoffrey-service-system
 ```
 To function properly, when running in a Docker container, the following additional configuration settings has to be added to e.g. your docker-compose.yml file (when installing through egeoffrey-cli, this is not needed since done automatically upon installation):
 ```
@@ -63,4 +63,4 @@ service cpu memory
 
 ## Version
 
-The version of this egeoffrey-service-system is 1.0-13 on the master branch.
+The version of this egeoffrey-service-system is 1.0-14 on the master branch.
